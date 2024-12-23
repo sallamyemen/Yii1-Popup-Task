@@ -51,7 +51,16 @@ return array(
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-			),
+
+                'popup/index' => 'popup/index',
+                'popup/list' => 'popup/list',
+                'popup/create' => 'popup/create',
+                'popup/update/<id:\d+>' => 'popup/update',
+                'popup/delete/<id:\d+>' => 'popup/delete',
+                'popup/code/<id:\d+>' => 'popup/code',
+                'popup/incrementViews' => 'popup/incrementViews',
+
+            ),
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',
