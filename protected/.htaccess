@@ -1,1 +1,9 @@
-deny from all
+#deny from all
+
+RewriteEngine on
+
+# Удаляем index.php из URL
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
+

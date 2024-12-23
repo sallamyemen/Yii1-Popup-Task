@@ -59,9 +59,9 @@ return array(
                 'popup/delete/<id:\d+>' => 'popup/delete',
                 'popup/code/<id:\d+>' => 'popup/code',
                 'popup/incrementViews' => 'popup/incrementViews',
-
             ),
-		),
+//            'showScriptName' => false,
+        ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

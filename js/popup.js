@@ -6,7 +6,7 @@ $(document).ready(function () {
         var popupId = $(this).data('id');
 
         $.ajax({
-            url: '/popup/incrementViews',
+            url: '/index.php/popup/incrementViews',
             type: 'POST',
             data: {id: popupId},
             dataType: 'json',

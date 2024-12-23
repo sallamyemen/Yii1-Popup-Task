@@ -82,17 +82,19 @@ class PopupController extends CController
 
     public function actionIncrementViews()
     {
-//        dd('pltc');
+
         Yii::log('Запрос получен: ' . print_r($_POST, true), 'info');
 
         if (Yii::app()->request->isPostRequest) {
+
+            Yii::log('Запрос получен: ' . print_r($_POST, true), 'info');
 
             $id = Yii::app()->request->getPost('id');
             $popup = Popup::model()->findByPk($id);
 
             if ($popup !== null) {
 
-                $popup->views_count++;
+                $popup->views++;
                 $popup->save();
 
                 echo CJSON::encode(array(
@@ -106,6 +108,5 @@ class PopupController extends CController
         echo CJSON::encode(array('status' => 'error', 'message' => 'Попап не найден.'));
         Yii::app()->end();
     }
-
 
 }

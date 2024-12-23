@@ -20,7 +20,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/popup.js
             <td><?php echo CHtml::encode($popup->content); ?></td>
             <td><?php echo CHtml::encode($popup->views); ?></td>
             <td>
-                <a href="<?php echo $this->createUrl('popup/incrementViews', array('id' => $popup->id)); ?>" class="show-popup" data-id="<?php echo $popup->id; ?>">Показать</a> |
+                <a href="javascript:void(0);" class="show-popup" data-id="<?php echo $popup->id; ?>">Показать</a> |
                 <a href="<?php echo $this->createUrl('popup/update', array('id' => $popup->id)); ?>">Редактировать</a> |
                 <a href="<?php echo $this->createUrl('popup/code', array('id' => $popup->id)); ?>">Показать код</a> |
                 <?php echo CHtml::link('Удалить', '#', array(
