@@ -1,9 +1,9 @@
-<h1>HTML-код попапа "<?php echo CHtml::encode($popup->title); ?>"</h1>
+<h1>Сгенерированный скрипт для вставки</h1>
+
+<p>Копируйте следующий код и вставьте его на любой сайт:</p>
 
 <pre>
-<?php echo $popupHtml; ?>
+    <?php echo htmlspecialchars($script); ?>
 </pre>
 
-<p>
-    <a href="<?php echo $this->createUrl('popup/list'); ?>">Вернуться к списку попапов</a>
-</p>
+<p>Не забудьте разместить этот код на стороннем сайте, чтобы попап отобразился через 10 секунд!</p>

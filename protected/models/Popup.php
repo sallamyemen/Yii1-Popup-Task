@@ -86,4 +86,13 @@ class Popup extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    protected function beforeSave()
+    {
+        if ($this->enabled) {
+            // Деактивировать все остальные попапы
+            Popup::model()->updateAll(['enabled' => 0], 'id != :id', [':id' => $this->id]);
+        }
+        return parent::beforeSave();
+    }
 }

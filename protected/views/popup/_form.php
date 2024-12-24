@@ -15,6 +15,12 @@
     </div>
 
     <div>
+        <?php echo $form->labelEx($model, 'enabled'); ?>
+        <?php echo $form->checkBox($model, 'enabled'); ?>
+        <?php echo $form->error($model, 'enabled'); ?>
+    </div>
+
+    <div>
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
     </div>
 
