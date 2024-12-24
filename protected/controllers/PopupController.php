@@ -82,41 +82,30 @@ class PopupController extends CController
 
     public function actionIncrementViews()
     {
-
-        Yii::log('Запрос получен: ' . print_r($_POST, true), 'info');
-
         if (Yii::app()->request->isPostRequest) {
-
-            Yii::log('Запрос получен: ' . print_r($_POST, true), 'info');
-
             $id = Yii::app()->request->getPost('id');
             $popup = Popup::model()->findByPk($id);
 
             if ($popup !== null) {
-
                 $popup->views++;
                 $popup->save();
 
-                // Получаем все попапы для обновления списка
-                //$allPopups = Popup::model()->findAll();
+                $popupContent = $this->renderPartial('_popupContent', ['popup' => $popup], true);
 
-                // Рендерим обновленный список попапов
-                //$updatedList = $this->renderPartial('_popupList', ['popups' => $popups], true);
+                Yii::log('Рендеринг контента попапа: ' . $popupContent, 'info');
 
-
-                echo CJSON::encode(array(
+                echo CJSON::encode([
                     'status' => 'success',
-                    'popupContent' => $this->renderPartial('_popupContent', array('popup' => $popup), true),
-                    //'updatedList' => $updatedList,
-                    //'_popupContent' => $this->renderPartial('_popupContent', ['popup' => $popup], true),
-                ));
+                    'popupContent' => $popupContent,
+                ]);
                 Yii::app()->end();
             }
         }
 
-        echo CJSON::encode(array('status' => 'error', 'message' => 'Попап не найден.'));
+        echo CJSON::encode(['status' => 'error', 'message' => 'Попап не найден.']);
         Yii::app()->end();
     }
+
 
     public function actionShow()
     {
@@ -148,7 +137,7 @@ class PopupController extends CController
 
     public function actionGetActivePopup()
     {
-        $popup = Popup::model()->findByAttributes(array('is_active' => 1));
+        $popup = Popup::model()->findByAttributes(array('enabled' => 1));
 
         if ($popup === null) {
             echo 'Нет активных попапов';
@@ -174,11 +163,14 @@ class PopupController extends CController
         }
 
         // Генерация JavaScript-кода
+        $popupUrl = $this->createAbsoluteUrl('popup/GetActivePopup', ['id' => $popup->id]);
+        $incrementUrl = $this->createAbsoluteUrl('popup/incrementViews');
         $script = <<<EOT
 <script type="text/javascript">
 (function() {
     var popupId = {$popup->id};
-    var popupUrl = '{$this->createAbsoluteUrl('popup/getPopup', ['id' => $popup->id])}';
+    var popupUrl = '{$popupUrl}';
+    var incrementUrl = '{$incrementUrl}';
 
     function loadPopup() {
         var xhr = new XMLHttpRequest();
@@ -203,9 +195,32 @@ class PopupController extends CController
                     document.body.removeChild(popupDiv);
                 };
                 popupDiv.appendChild(closeButton);
+
+                // Увеличиваем счётчик просмотров
+                incrementViews();
             }
         };
+        xhr.onerror = function () {
+            console.error('Ошибка загрузки попапа.');
+        };
         xhr.send();
+    }
+
+    function incrementViews() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', incrementUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('Счётчик просмотров увеличен.');
+            } else {
+                console.error('Ошибка при увеличении счётчика просмотров.');
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Ошибка сети при увеличении счётчика просмотров.');
+        };
+        xhr.send('id=' + popupId);
     }
 
     setTimeout(loadPopup, 10000);
@@ -213,11 +228,7 @@ class PopupController extends CController
 </script>
 EOT;
 
-        // Передаём скрипт в представление
+        // Отображение представления сгенерированного скрипта
         $this->render('code', ['script' => $script]);
     }
-
-
-
-
 }

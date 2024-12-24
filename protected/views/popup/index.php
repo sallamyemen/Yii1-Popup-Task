@@ -1,9 +1,3 @@
-<?php
-
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/popupApear.js', CClientScript::POS_READY);
-
-?>
-
 <h1>Главная страница</h1>
 
 <p>
@@ -12,5 +6,3 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/popupApe
 <p>
     <a href="<?php echo $this->createUrl('popup/list'); ?>">Список всех попапов</a>
 </p>
-
-
