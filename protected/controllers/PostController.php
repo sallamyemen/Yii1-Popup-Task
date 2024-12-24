@@ -131,9 +131,10 @@ class PostController extends Controller
 			'criteria'=>$criteria,
 		));
 
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+//		$this->render('popup/index',array(
+//			'dataProvider'=>$dataProvider,
+//		));
+        $this->redirect(array('popup/index'));
 	}
 
 	/**
