@@ -47,6 +47,8 @@ class PopupController extends CController
 
     public function actionDelete($id)
     {
+        $model = $this->loadModel($id);
+
         if (Yii::app()->request->isPostRequest) {
             $this->loadModel($id)->delete();
             $this->redirect(array('popup/list')); // Возвращаемся на список
@@ -54,22 +56,6 @@ class PopupController extends CController
             throw new CHttpException(400, 'Неверный запрос');
         }
     }
-
-//    public function actionCode($id)
-//    {
-//        $popup = Popup::model()->findByPk($id);
-//
-//        if ($popup === null) {
-//            throw new CHttpException(404, 'Попап не найден.');
-//        }
-//
-//        $popupHtml = $this->renderPartial('_popupContent', array('popup' => $popup), true);
-//
-//        $this->render('code', array(
-//            'popup' => $popup,
-//            'popupHtml' => CHtml::encode($popupHtml), // Экранирование HTML
-//        ));
-//    }
 
     protected function loadModel($id)
     {
@@ -103,35 +89,6 @@ class PopupController extends CController
         }
 
         echo CJSON::encode(['status' => 'error', 'message' => 'Попап не найден.']);
-        Yii::app()->end();
-    }
-
-
-    public function actionShow()
-    {
-        $id = Yii::app()->request->getPost('id');
-        $popup = Popup::model()->findByPk($id);
-
-        if ($popup === null) {
-            echo CJSON::encode(['success' => false, 'message' => 'Попап не найден.']);
-            Yii::app()->end();
-        }
-
-        // Увеличение счётчика просмотров
-        $popup->views++;
-        $popup->save();
-
-        // Рендеринг контента попапа
-        $popupContent = $this->renderPartial('_popupContent', ['popup' => $popup], true);
-
-        // Обновление списка попапов
-        $updatedList = $this->renderPartial('_popupList', ['popups' => Popup::model()->findAll()], true);
-
-        echo CJSON::encode([
-            'success' => true,
-            'popupContent' => $popupContent,
-            'updatedList' => $updatedList,
-        ]);
         Yii::app()->end();
     }
 

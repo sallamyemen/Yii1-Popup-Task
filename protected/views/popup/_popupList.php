@@ -16,13 +16,15 @@
             <td><?php echo $popup->views; ?></td>
             <td><?php echo $popup->enabled ? 'Да' : 'Нет'; ?></td>
             <td>
+                <a href="<?php echo Yii::app()->createUrl('popup/show', array('id' => $popup->id)); ?>">Покзать</a> |
                 <a href="<?php echo Yii::app()->createUrl('popup/update', array('id' => $popup->id)); ?>">Редактировать</a> |
                 <?php if ($popup->enabled): ?>
                     <a href="<?php echo Yii::app()->createUrl('popup/generateScript', ['id' => $popup->id]); ?>" class="generate-script">Сгенерировать скрипт</a> |
                 <?php else: ?>
                     <a href="javascript:void(0);" class="generate-script disabled" style="pointer-events: none; color: gray;">Сгенерировать скрипт</a> |
                 <?php endif; ?>
-                <a href="<?php echo Yii::app()->createUrl('popup/delete', array('id' => $popup->id)); ?>">Удалить</a>
+<!--                <a href="--><?php //echo Yii::app()->createUrl('popup/delete', array('id' => $popup->id)); ?><!--">Удалить</a>-->
+                <a href="<?php echo Yii::app()->createUrl('popup/delete', ['id' => $popup->id]); ?>" class="delete-popup">Удалить</a>
             </td>
         </tr>
     <?php endforeach; ?>
